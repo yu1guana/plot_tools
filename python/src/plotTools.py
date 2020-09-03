@@ -13,4 +13,22 @@ def Depth(item):
             else:
                 return 1 + max(Depth(val) for val in item)
 
-# def ListPlot(data):
+def show():
+    plt.show()
+
+def ListPlot(datas_list):
+    if Depth(datas_list) == 2:
+        datas_list = [datas_list]
+    elif Depth(datas_list) == 3:
+        pass
+    else:
+        print("Error: The depth of datas_list must be 2 or 3.")
+        print("       Now, the depth of datas_list is "+str(Depth(datas_list)))
+
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1)
+
+    for datas in datas_list:
+        xDatas = list(map(lambda data: data[0], datas))
+        yDatas = list(map(lambda data: data[1], datas))
+        ax.scatter(xDatas, yDatas)
