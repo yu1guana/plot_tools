@@ -1,3 +1,4 @@
+import numpy as np
 import plotTools as pt
 
 def test_Depth():
@@ -29,6 +30,19 @@ def test_Depth():
     print_depth( ([{"a": 2}, (set(),3), 4], 5, [6,7]) )
 
 
+def test_ListPlot_1():
+    datas = [ (i, np.sin(i)) for i in np.arange(0, 2*np.pi, 0.1*np.pi)]
+    pt.ListPlot(datas)
+
+def test_ListPlot_2():
+    datas_list = []
+    datas = [ (i, np.sin(i)) for i in np.arange(0, 2*np.pi, 0.1*np.pi)]
+    datas_list.append(datas)
+    datas = [ (i, np.sin(i+0.25*np.pi)) for i in np.arange(0, 2*np.pi, 0.1*np.pi)]
+    datas_list.append(datas)
+    pt.ListPlot(datas_list)
 
 if __name__ == "__main__":
-    test_Depth()
+    # test_Depth()
+    test_ListPlot_2()
+    pt.show()
