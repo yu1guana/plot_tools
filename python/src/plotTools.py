@@ -34,8 +34,11 @@ def ListPlot(fig, ax, datas_list):
     elif Depth(datas_list) == 3:
         pass
     else:
-        print("Error: The depth of datas_list must be 2 or 3.")
-        print("       Now, the depth of datas_list is "+str(Depth(datas_list)))
+        error_message = "The depth of datas_list must be 2 or 3.\n"
+        error_message = error_message+\
+                "              Now, the depth of datas_list is equal to "\
+                +str(Depth(datas_list))+"."
+        raise RuntimeError(error_message)
 
     for datas in datas_list:
         xDatas = list(map(lambda data: data[0], datas))
