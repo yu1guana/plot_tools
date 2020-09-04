@@ -13,8 +13,20 @@ def Depth(item):
             else:
                 return 1 + max(Depth(val) for val in item)
 
-def show():
+
+def CreateCanvas():
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1)
+    return fig, ax
+
+
+def Show():
     plt.show()
+
+
+def Export(file_name, fig):
+    fig.savefig(file_name)
+
 
 def ListPlot(fig, ax, datas_list):
     if Depth(datas_list) == 2:
@@ -25,18 +37,7 @@ def ListPlot(fig, ax, datas_list):
         print("Error: The depth of datas_list must be 2 or 3.")
         print("       Now, the depth of datas_list is "+str(Depth(datas_list)))
 
-    # fig = plt.figure()
-    # ax = fig.add_subplot(1,1,1)
-
     for datas in datas_list:
         xDatas = list(map(lambda data: data[0], datas))
         yDatas = list(map(lambda data: data[1], datas))
         ax.scatter(xDatas, yDatas)
-
-# def Export():
-#     pass
-
-def CreateCanvas():
-    fig = plt.figure()
-    ax = fig.add_subplot(1,1,1)
-    return fig, ax
