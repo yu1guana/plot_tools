@@ -32,7 +32,9 @@ def test_Depth():
 
 def test_ListPlot_1():
     datas = [ (i, np.sin(i)) for i in np.arange(0, 2*np.pi, 0.1*np.pi)]
-    pt.ListPlot(datas)
+    fig, ax = pt.CreateCanvas()
+    pt.ListPlot(fig, ax, datas)
+    fig.savefig("../graphs/ListPlot_1.eps")
 
 def test_ListPlot_2():
     datas_list = []
@@ -40,9 +42,11 @@ def test_ListPlot_2():
     datas_list.append(datas)
     datas = [ (i, np.sin(i+0.25*np.pi)) for i in np.arange(0, 2*np.pi, 0.1*np.pi)]
     datas_list.append(datas)
-    pt.ListPlot(datas_list)
+    fig, ax = pt.CreateCanvas()
+    pt.ListPlot(fig, ax, datas_list)
+    fig.savefig("../graphs/ListPlot_2.png")
 
 if __name__ == "__main__":
     # test_Depth()
-    test_ListPlot_2()
-    pt.show()
+    test_ListPlot_1()
+    pt.Show()
