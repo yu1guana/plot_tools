@@ -22,9 +22,57 @@ class Canvas():
     __fig = None
     __ax  = None
     # Creates figure and axes
-    def __init__(self):
+    def __init__(self, FlagTicks=True, TicksDirection="in", LabelNames=None, TitleName=None, PlotRange=None):
         self.__fig = plt.figure()
         self.__ax = self.__fig.add_subplot(1,1,1)
+        # Ticks settings
+        if Depth(FlagTicks) == 0:
+            FlagTicks = [FlagTicks for i in range(4)]
+        elif Depth(FlagTicks) == 1:
+            if len(FlagTicks) != 4:
+                error_message  = "Length of FlagTicks is wrong.\n"
+                error_message += space_RunTimeError\
+                        +"Now, length of FlagTicks is equal to "+str(len(FlagTicks))
+                raise RuntimeError(error_message)
+        else:
+            error_message  = "Depth of FlagTicks is wrong.\n"
+            error_message += space_RunTimeError+"Now, "+str(Depth(FlagTicks))
+            raise RuntimeError(error_message)
+        if not TicksDirection in ("in", "out"):
+            error_message  = "TicksDirection '"+str(TicksDirection)+"' is wrong."
+            raise RuntimeError(error_message)
+        self.__ax.tick_params(top=FlagTicks[0])
+        self.__ax.tick_params(bottom=FlagTicks[1])
+        self.__ax.tick_params(left=FlagTicks[2])
+        self.__ax.tick_params(right=FlagTicks[3])
+        self.__ax.tick_params(direction=TicksDirection)
+        # Axes label settings
+        if LabelNames != None:
+            if Depth(LabelNames) == 1 and len(LabelNames) == 2:
+                self.__ax.set_xlabel(LabelNames[0], fontsize=15)
+                self.__ax.set_ylabel(LabelNames[1], fontsize=15)
+            else:
+                error_message = "Depth "+str(Depth(LabelNames))+" or length "\
+                        +str(len(LabelNames))+" are wrong."
+                raise RuntimeError(error_message)
+        # Title settings
+        if TitleName != None:
+            self.__ax.set_title(TitleName, fontsize=20)
+        # Plot range settings
+        if PlotRange != None:
+            if Depth(PlotRange) == 1 and len(PlotRange) == 2:
+                self.__ax.set_xlim(xmin=PlotRange[0])
+                self.__ax.set_xlim(xmax=PlotRange[1])
+            elif Depth(PlotRange) == 2 and len(PlotRange) == 2\
+                    and Depth(PlotRange[0]) == 1 and Depth(PlotRange[1]) == 1\
+                    and len(PlotRange[0]) == 2 and len(PlotRange[1]) == 2:
+                self.__ax.set_xlim(xmin=PlotRange[0][0])
+                self.__ax.set_xlim(xmax=PlotRange[0][1])
+                self.__ax.set_ylim(ymin=PlotRange[1][0])
+                self.__ax.set_ylim(ymax=PlotRange[1][1])
+            else:
+                error_message = "PlotRange is wrong."
+                raise RuntimeError(error_message)
 
     # Shows figures in all canvases
     @staticmethod
