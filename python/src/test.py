@@ -31,22 +31,22 @@ def test_Depth():
 
 
 def test_ListPlot_1():
-    fig, ax = pt.CreateCanvas()
-    pt.ListPlot(fig, ax, gl_2d_1_graph_datas)
+    canvas= pt.Canvas()
+    canvas.ListPlot(gl_2d_1_graph_datas)
     # pt.Export("../graphs/ListPlot_1.eps", fig)
 
 def test_ListPlot_2():
-    fig, ax = pt.CreateCanvas()
-    pt.ListPlot(fig, ax, gl_2d_2_graphs_datas_list)
+    canvas= pt.Canvas()
+    canvas.ListPlot(gl_2d_2_graphs_datas_list)
     # pt.Export("../graphs/ListPlot_2.png", fig)
 
 def test_ListPlot_3():
-    fig, ax = pt.CreateCanvas()
-    pt.ListPlot(fig, ax, gl_2d_1_graph_datas, PlotLegendNames="sin(x)")
+    canvas= pt.Canvas()
+    canvas.ListPlot(gl_2d_1_graph_datas, PlotLegendNames="sin(x)")
 
 def test_ListPlot_4():
-    fig, ax = pt.CreateCanvas()
-    pt.ListPlot(fig, ax, gl_2d_2_graphs_datas_list, PlotLegendNames=["sin($x$)","sin(x+$\pi/4$)"])
+    canvas= pt.Canvas()
+    canvas.ListPlot(gl_2d_2_graphs_datas_list, PlotLegendNames=["sin($x$)","sin(x+$\pi/4$)"])
     # pt.ListPlot(fig, ax, gl_2d_2_graphs_datas_list, PlotLegendNames=[None,"sin(x+$\pi/4$)"])
 
 gl_2d_1_graph_datas = [ (i, np.sin(i)) for i in np.arange(0, 2*np.pi, 0.1*np.pi)]
@@ -56,4 +56,4 @@ gl_2d_2_graphs_datas_list = [[ (i, np.sin(i)) for i in np.arange(0, 2*np.pi, 0.1
 if __name__ == "__main__":
     # test_Depth()
     test_ListPlot_4()
-    pt.Show()
+    pt.Canvas.Show()
