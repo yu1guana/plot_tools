@@ -19,6 +19,8 @@ def Depth(item):
 
 # Has a figure and an axes.
 class Canvas():
+    __fig = None
+    __ax  = None
     # Creates figure and axes
     def __init__(self):
         self.__fig = plt.figure()
@@ -33,8 +35,8 @@ class Canvas():
     def Export(self, file_name):
         self.__fig.savefig(file_name)
 
-    # Plot datas as circles
-    def ListPlot(self, datas_list, PlotLegendNames=None):
+    # Core of 2D plot.
+    def Plot2dCore(self, datas_list, plotType, PlotLegendNames):
         # Check a number of graphs
         if Depth(datas_list) == 2:
             num_graphs = 1
@@ -72,7 +74,23 @@ class Canvas():
         for i_datas in range(num_graphs):
             xDatas = list(map(lambda data: data[0], datas_list[i_datas]))
             yDatas = list(map(lambda data: data[1], datas_list[i_datas]))
-            self.__ax.scatter(xDatas, yDatas, label=PlotLegendNames[i_datas])
+            if plotType == "ListPlot":
+                self.__ax.scatter(xDatas, yDatas, label=PlotLegendNames[i_datas])
+            elif plotType == "ListLinePlot":
+                self.__ax.plot(xDatas, yDatas, label=PlotLegendNames[i_datas])
+            else:
+                error_message  = "Plot type is wrong.\n"
+                error_message += space_RunTimeError+"Now, the plot type is "+str(plotType)
+                raise RuntimeError(error_message)
+
         # Legends
         if any([ False if PlotLegendName == None else True for PlotLegendName in PlotLegendNames]):
             self.__ax.legend()
+
+    # Plot datas as circles
+    def ListPlot(self, datas_list, PlotLegendNames=None):
+        self.Plot2dCore(datas_list, "ListPlot", PlotLegendNames=PlotLegendNames)
+
+    # Plot datas as lines
+    def ListLinePlot(self, datas_list, PlotLegendNames=None):
+        self.Plot2dCore(datas_list, "ListLinePlot", PlotLegendNames=PlotLegendNames)
