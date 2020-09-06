@@ -22,7 +22,11 @@ class Canvas():
     __fig = None
     __ax  = None
     # Creates figure and axes
-    def __init__(self, FlagTicks=True, TicksDirection="in", LabelNames=None, TitleName=None, PlotRange=None):
+    def __init__(self, FontFamily=None, MathFontFamily="custom", FlagTicks=True, TicksDirection="in", LabelNames=None, TitleName=None, PlotRange=None):
+        # plt.rcParams["text.usetex"] = True
+        if FontFamily != None:
+            plt.rcParams["font.family"] = FontFamily
+        plt.rcParams["mathtext.fontset"] = MathFontFamily
         self.__fig = plt.figure()
         self.__ax = self.__fig.add_subplot(1,1,1)
         # Ticks settings
