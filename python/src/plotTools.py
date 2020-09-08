@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib.ticker import AutoMinorLocator
 
 width_RunTimeError = 12
 space_RunTimeError = " "*14
@@ -22,34 +23,52 @@ class Canvas():
     __fig = None
     __ax  = None
     # Creates figure and axes
-    def __init__(self, FontFamily=None, MathFontFamily="custom", FlagTicks=True, TicksDirection="in", LabelNames=None, TitleName=None, PlotRange=None):
-        # plt.rcParams["text.usetex"] = True
-        if FontFamily != None:
-            plt.rcParams["font.family"] = FontFamily
-        plt.rcParams["mathtext.fontset"] = MathFontFamily
+    def __init__(self,\
+            SerifFont=True,\
+            Ticks=True,\
+            TicksDirection="in",\
+            MinorTicksNum=5,\
+            LabelNames=None,\
+            TitleName=None,\
+            PlotRange=None,\
+            MajorGrid=False,\
+            MinorGrid=False):
+        if SerifFont:
+            plt.rcParams["font.family"] = "Times New Roman"
+            plt.rcParams["mathtext.fontset"] = "stix"
         self.__fig = plt.figure()
         self.__ax = self.__fig.add_subplot(1,1,1)
         # Ticks settings
-        if Depth(FlagTicks) == 0:
-            FlagTicks = [FlagTicks for i in range(4)]
-        elif Depth(FlagTicks) == 1:
-            if len(FlagTicks) != 4:
-                error_message  = "Length of FlagTicks is wrong.\n"
+        if Depth(Ticks) == 0:
+            Ticks = [Ticks for i in range(4)]
+        elif Depth(Ticks) == 1:
+            if len(Ticks) != 4:
+                error_message  = "Length of Ticks is wrong.\n"
                 error_message += space_RunTimeError\
-                        +"Now, length of FlagTicks is equal to "+str(len(FlagTicks))
+                        +"Now, length of Ticks is equal to "+str(len(Ticks))
                 raise RuntimeError(error_message)
         else:
-            error_message  = "Depth of FlagTicks is wrong.\n"
-            error_message += space_RunTimeError+"Now, "+str(Depth(FlagTicks))
+            error_message  = "Depth of Ticks is wrong.\n"
+            error_message += space_RunTimeError+"Now, "+str(Depth(Ticks))
             raise RuntimeError(error_message)
         if not TicksDirection in ("in", "out"):
             error_message  = "TicksDirection '"+str(TicksDirection)+"' is wrong."
             raise RuntimeError(error_message)
-        self.__ax.tick_params(top=FlagTicks[0])
-        self.__ax.tick_params(bottom=FlagTicks[1])
-        self.__ax.tick_params(left=FlagTicks[2])
-        self.__ax.tick_params(right=FlagTicks[3])
+        self.__ax.tick_params(top=Ticks[0])
+        self.__ax.tick_params(bottom=Ticks[1])
+        self.__ax.tick_params(left=Ticks[2])
+        self.__ax.tick_params(right=Ticks[3])
         self.__ax.tick_params(direction=TicksDirection)
+        self.__ax.tick_params(which="minor", direction=TicksDirection)
+        if Depth(MinorTicksNum) == 0:
+            MinorTicksNum = [ MinorTicksNum, MinorTicksNum ]
+        elif Depth(MinorTicksNum) == 1 and len(MinorTicksNum) == 2:
+            pass
+        else:
+            error_message = "Depth or length of MinorTicksNum "+str(MinorTicksNum)+" is wrong."
+            raise RuntimeError(error_message)
+        self.__ax.xaxis.set_minor_locator(AutoMinorLocator(MinorTicksNum[0]))
+        self.__ax.yaxis.set_minor_locator(AutoMinorLocator(MinorTicksNum[1]))
         # Axes label settings
         if LabelNames != None:
             if Depth(LabelNames) == 1 and len(LabelNames) == 2:
@@ -77,6 +96,11 @@ class Canvas():
             else:
                 error_message = "PlotRange is wrong."
                 raise RuntimeError(error_message)
+        # Grid settings
+        if MajorGrid:
+            self.__ax.grid(which="major", color="gray", linestyle="-")
+        if MinorGrid:
+            self.__ax.grid(which="minor", color="gray", linestyle="--")
 
     # Shows figures in all canvases
     @staticmethod
